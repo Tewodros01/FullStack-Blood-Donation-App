@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../../../../config/config.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../providers/providers.dart';
-import '../../dashboard_page/home_page.dart';
+import '../../dashboard_page/dash_board_page.dart';
 
 class UpdateProfileWidget extends ConsumerWidget {
   const UpdateProfileWidget({super.key});
@@ -119,7 +119,8 @@ class UpdateProfileWidget extends ConsumerWidget {
                                               //   (route) => false,
                                               // );
                                               ref.read(userProvider);
-                                              Get.to(() => const HomePage());
+                                              Get.to(
+                                                  () => const DashBoardPage());
                                             },
                                           ),
                                         ],

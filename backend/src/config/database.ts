@@ -1,5 +1,5 @@
 const MONGO_DB_CONFIG = {
-  DB: "mongodb://127.0.0.1:27017/blood-donation",
+  DB: "mongodb+srv://Tewodros:996633@cluster0.4dymzm9.mongodb.net/?retryWrites=true&w=majority",
   PAGE_SIZE: 10,
   // BCRYPT_PASSWORD: "Grocery App",
   SALT_ROUND: 10,

@@ -8,7 +8,7 @@ import 'package:frontend/src/constants/sizes.dart';
 import 'package:frontend/src/constants/text_string.dart';
 import 'package:frontend/src/features/authentication/controllers/signup_controllers.dart';
 import 'package:frontend/src/features/core/models/user_model.dart';
-import 'package:frontend/src/features/core/pages/dashboard_page/home_page.dart';
+import 'package:frontend/src/features/core/pages/dashboard_page/dash_board_page.dart';
 import 'package:get/get.dart';
 
 class SignUpFormWidget extends StatelessWidget {
@@ -148,7 +148,8 @@ class SignUpFormWidget extends StatelessWidget {
                                               //   "/login",
                                               //   (route) => false,
                                               // );
-                                              Get.to(() => const HomePage());
+                                              Get.to(
+                                                  () => const DashBoardPage());
                                             },
                                           ),
                                         ],

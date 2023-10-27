@@ -42,13 +42,13 @@ class ProfileWidget extends StatelessWidget {
                                   ? const CircleAvatarWithTransition(
                                       image: AssetImage(cProfileImage),
                                       primaryColor: Colors.white60,
-                                      size: 130,
+                                      size: 100,
                                       transitionBorderwidth: 8.0,
                                     )
                                   : CircleAvatarWithTransition(
                                       image: NetworkImage(user.fullImagePath),
                                       primaryColor: Colors.white60,
-                                      size: 130,
+                                      size: 100,
                                       transitionBorderwidth: 8.0,
                                     ),
                               const SizedBox(width: 20),

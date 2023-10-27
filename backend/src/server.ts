@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import connectDB from "./config/db.connect.js";
+import connectToDatabase from "./config/db.connect.js";
 import morgan from "morgan";
 import http from "http";
 import cors from "cors";
@@ -11,7 +11,8 @@ import { adminRouter } from "./adminjs/index.js";
 
 // Create Express app
 const app: express.Application = express();
-const port: string | number = process.env.PORT || 8045;
+const port: string | number = process.env.PORT || 8080;
+const address = `192.168.205.54:${port}`;
 
 // Configure middlewares
 app.use(morgan("dev"));
@@ -102,9 +103,9 @@ io.on("connection", (socket: Socket) => {
 // Start the server
 const startServer = async () => {
   try {
-    await connectDB();
+    await connectToDatabase();
     server.listen(port, () => {
-      console.log(`Server is running on port http://localhost:${port}`);
+      console.log(`Server is running on port http://${address}`);
     });
   } catch (error) {
     console.log(error);
