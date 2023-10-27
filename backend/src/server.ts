@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import connectToDatabase from "./config/db.connect.js";
+import { connectToDatabase } from "./config/db.connect.js";
 import morgan from "morgan";
 import http from "http";
 import cors from "cors";
