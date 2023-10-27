@@ -14,8 +14,8 @@ const bcryptPassword = process.env.BCRYBT_PASSWORD;
 // Signup
 export const createUser = async (user: IUser): Promise<IUserDocument> => {
   try {
-    //const isUserExist = await User.findOne({ email: user.email });
-    if (isUserExist) throw new Error("Email Already Registerd");
+    // const isUserExist = await User.findOne({ email: user.email });
+    // if (isUserExist) throw new Error("Email Already Registerd");
 
     const password = user.password;
     const hash = bcrypt.hashSync(

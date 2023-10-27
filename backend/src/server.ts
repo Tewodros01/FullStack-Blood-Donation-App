@@ -12,7 +12,6 @@ import indexRoutes from "./routes/index.js";
 // Create Express app
 const app: express.Application = express();
 const port: string | number = process.env.PORT || 8080;
-const address = `192.168.205.54:${port}`;
 
 // Configure middlewares
 app.use(morgan("dev"));
@@ -105,7 +104,7 @@ const startServer = async () => {
   try {
     await connectToDatabase();
     server.listen(port, () => {
-      console.log(`Server is running on port http://${address}`);
+      console.log(`Server is running`);
     });
   } catch (error) {
     console.log(error);
