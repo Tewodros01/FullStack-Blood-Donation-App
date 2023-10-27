@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:frontend/src/common_widgets/circularProgressBar/circular_progress_widget.dart';
-import 'package:frontend/src/config/config.dart';
+import 'package:frontend/config.dart';
 import 'package:frontend/src/constants/colors.dart';
 import 'package:frontend/src/constants/sizes.dart';
 import 'package:frontend/src/constants/text_string.dart';

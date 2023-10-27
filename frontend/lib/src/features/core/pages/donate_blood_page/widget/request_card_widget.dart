@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/api/api_services.dart';
-import 'package:frontend/src/config/config.dart';
+import 'package:frontend/config.dart';
 import 'package:frontend/src/constants/colors.dart';
 import 'package:frontend/src/features/core/models/blood_request_model.dart';
 import 'package:get/get.dart';

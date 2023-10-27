@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:frontend/main.dart';
-import 'package:frontend/src/config/config.dart';
+import 'package:frontend/config.dart';
 import 'package:frontend/src/features/authentication/models/login_response_model.dart';
 import 'package:frontend/src/features/core/models/accesToken_model.dart';
 import 'package:frontend/src/features/core/models/sponser.dart';
@@ -24,15 +24,16 @@ class ApiService {
       String email, String phoneNo, String password) async {
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
 
-    var url = Uri.http(Config.apiURL, Config.registerApi);
+    var url = Uri.https(Config.apiURL, Config.registerApi);
+    print(url);
     var respons = await client.post(url,
         headers: requestHeader,
         body: jsonEncode({
           "fullName": fullName,
           "email": email,
-          "password": password,
-          "phoneNo": phoneNo,
           "bloodType": bloodType,
+          "phoneNo": phoneNo,
+          "password": password,
         }));
 
     if (respons.statusCode == 200) {

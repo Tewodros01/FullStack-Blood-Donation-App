@@ -6,7 +6,7 @@ import 'package:frontend/src/features/core/controllers/update_profile_controller
 import 'package:frontend/src/features/core/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import '../../../../../config/config.dart';
+import '../../../../../../config.dart';
 import '../../../../../constants/colors.dart';
 import '../../../../../providers/providers.dart';
 import '../../dashboard_page/dash_board_page.dart';

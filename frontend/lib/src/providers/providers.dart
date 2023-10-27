@@ -1,5 +1,5 @@
 import 'package:frontend/src/api/api_services.dart';
-import 'package:frontend/src/config/config.dart';
+import 'package:frontend/config.dart';
 import 'package:frontend/src/features/core/models/user_doner.dart';
 import 'package:frontend/src/features/core/models/user_model.dart';
 import 'package:frontend/src/features/core/notifiers/blood_request_notifier.dart';

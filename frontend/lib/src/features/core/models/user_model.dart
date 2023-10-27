@@ -1,4 +1,4 @@
-import 'package:frontend/src/config/config.dart';
+import 'package:frontend/config.dart';
 import 'package:frontend/src/features/core/models/token.model.dart';
 
 class User {
