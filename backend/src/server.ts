@@ -7,7 +7,7 @@ import { Server, Socket } from "socket.io";
 import path from "path";
 import errorHandler from "./middlewares/errors.js";
 import indexRoutes from "./routes/index.js";
-import { adminRouter } from "./adminjs/index.js";
+//import { adminRouter } from "./adminjs/index.js";
 
 // Create Express app
 const app: express.Application = express();
@@ -21,7 +21,7 @@ app.use(cors());
 
 // Routes
 app.use("/api", indexRoutes);
-app.use("/admin", adminRouter);
+//app.use("/admin", adminRouter);
 
 // Serve static files
 app.use("/uploads", express.static(path.resolve("uploads")));
