@@ -76,17 +76,23 @@ class BloodRequestWidget extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage(cProfileImage),
-                    ),
+                    bloodRequest.requesterUser?.profilePicture == null
+                        ? const CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage(cProfileImage),
+                          )
+                        : CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                                bloodRequest.requesterUser!.profilePicture!),
+                          ),
                     SizedBox(width: 10.h),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 10.h),
                         TextWidget(
-                          "Tewodros Misawoy",
+                          "${bloodRequest.requesterUser?.fullName}",
                           18,
                           cPrimaryColor,
                           FontWeight.bold,
@@ -98,7 +104,7 @@ class BloodRequestWidget extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             TextWidget(
-                              "Reason \n",
+                              "Reason ${bloodRequest.reason}",
                               15,
                               cPrimaryColor,
                               FontWeight.normal,

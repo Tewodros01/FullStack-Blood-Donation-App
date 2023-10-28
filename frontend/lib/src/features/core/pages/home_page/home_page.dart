@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:frontend/src/common_widgets/app_bar/app_bar.dart';
 import 'package:frontend/src/constants/colors.dart';
 import 'package:frontend/src/constants/image_strings.dart';
+import 'package:frontend/src/features/core/models/recent_doner_model.dart';
 import 'package:frontend/src/features/core/pages/home_page/widgets/blood_reques_widget.dart';
 import 'package:frontend/src/features/core/pages/home_page/widgets/card_container.dart';
 import 'package:frontend/src/features/core/pages/my_request_page/my_request_page.dart';
+import 'package:frontend/src/providers/providers.dart';
 import 'package:get/get.dart';
 
 class BloodPage extends StatefulWidget {
@@ -39,7 +42,7 @@ class _BloodPageState extends State<BloodPage> {
               ),
             ),
           ),
-          recentDoner(),
+          _buildRecentDonerData(context),
           SliverToBoxAdapter(child: SizedBox(height: 10.h)),
           SliverToBoxAdapter(
             child: Padding(
@@ -241,7 +244,32 @@ class _BloodPageState extends State<BloodPage> {
     );
   }
 
-  Widget recentDoner() {
+  Widget _buildRecentDonerData(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, _) {
+        final recentDonersState = ref.watch(recentDonersProvider);
+        if (recentDonersState.recentDoners.isEmpty) {
+          ref.watch(recentDonersProvider.notifier).getRecentDoner();
+          if (!recentDonersState.hasNext && !recentDonersState.isLoading) {
+            return const SliverToBoxAdapter(
+              child: Center(
+                child: Text("No Recent Doner"),
+              ),
+            );
+          }
+          return const SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else {
+          return recentDoner(recentDonersState.recentDoners);
+        }
+      },
+    );
+  }
+
+  Widget recentDoner(List<RecentDoner> recentDoners) {
     return SliverToBoxAdapter(
       child: Column(
         children: [
@@ -260,8 +288,9 @@ class _BloodPageState extends State<BloodPage> {
                     width: 10.w,
                   );
                 },
-                itemCount: 5,
+                itemCount: recentDoners.length,
                 itemBuilder: (BuildContext context, index) {
+                  var recentDoner = recentDoners[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
@@ -284,12 +313,19 @@ class _BloodPageState extends State<BloodPage> {
                               height: 170.h,
                               decoration: BoxDecoration(
                                 color: Colors.grey,
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                    cProfileImage,
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
+                                image: recentDoner.profilePicture == null
+                                    ? const DecorationImage(
+                                        image: AssetImage(
+                                          cProfileImage,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : DecorationImage(
+                                        image: NetworkImage(
+                                          recentDoner.profilePicture!,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.2),

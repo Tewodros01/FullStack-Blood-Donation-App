@@ -1,4 +1,4 @@
-import 'package:frontend/src/features/core/models/user_model.dart';
+import 'package:frontend/config.dart';
 
 List<BloodRequest> bloodRequestFromJson(dynamic str) =>
     List<BloodRequest>.from((str).map((x) => BloodRequest.fromJson(x)));
@@ -17,7 +17,7 @@ class BloodRequest {
   List<String>? userDoners;
   int? pendingState;
   int? completedState;
-  User? requesterUser;
+  RequesterUser? requesterUser;
 
   BloodRequest({
     required this.bloodType,
@@ -53,7 +53,7 @@ class BloodRequest {
           : null,
       pendingState: json['pendingState'],
       completedState: json['completedState'],
-      requesterUser: User.fromJson(json['requesterId']),
+      requesterUser: RequesterUser.fromJson(json['requesterId']),
       // Deserialize requesterUser from JSON
     );
   }
@@ -72,4 +72,35 @@ class BloodRequest {
       'requestId': requestId,
     };
   }
+}
+
+class RequesterUser {
+  String fullName;
+  String email;
+  String phoneNo;
+  String userId;
+  String? profilePicture;
+
+  RequesterUser({
+    required this.fullName,
+    required this.email,
+    required this.phoneNo,
+    required this.userId,
+    this.profilePicture,
+  });
+
+  factory RequesterUser.fromJson(Map<String, dynamic> json) {
+    return RequesterUser(
+      fullName: json['fullName'],
+      email: json['email'],
+      phoneNo: json['phoneNo'],
+      userId: json['userId'],
+      profilePicture: json['profilePicture'],
+    );
+  }
+}
+
+extension RequesterUserModelExt on RequesterUser {
+  String get fullImagePath =>
+      profilePicture != null ? Config.imageURL + profilePicture! : '';
 }

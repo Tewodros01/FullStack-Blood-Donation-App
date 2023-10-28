@@ -4,6 +4,7 @@ import 'package:frontend/main.dart';
 import 'package:frontend/config.dart';
 import 'package:frontend/src/features/authentication/models/login_response_model.dart';
 import 'package:frontend/src/features/core/models/accesToken_model.dart';
+import 'package:frontend/src/features/core/models/recent_doner_model.dart';
 import 'package:frontend/src/features/core/models/sponser.dart';
 import 'package:frontend/src/features/core/models/token.model.dart';
 import 'package:frontend/src/features/core/models/user_model.dart';
@@ -456,6 +457,32 @@ class ApiService {
 
       if (data["data"] != null) {
         return tokenValueFromJson(data["data"]);
+      }
+    }
+    return null;
+  }
+
+  Future<List<RecentDoner>?> getRecentDoner() async {
+    var loginDetails = await SharedService.loginDetails();
+    Map<String, String> requestHeader = {
+      "Content-Type": "application/json",
+      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+    };
+    var url = Uri.https(
+      Config.apiURL,
+      Config.getRecentDoners,
+    );
+    print(url);
+
+    var response = await client.get(url, headers: requestHeader);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      print("Data: $data");
+
+      if (data["data"] != null) {
+        return recentDonerFromJson(data["data"]);
       }
     }
     return null;

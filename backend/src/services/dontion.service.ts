@@ -2,6 +2,7 @@ import { Console } from "console";
 import { BloodRequest, IBloodRequest } from "../models/blood_request.model.js";
 import { UserDonerModel, IUserDoner } from "../models/donation.model.js";
 import { User } from "../models/user.model.js";
+import { IDonorData } from "../interface/doner_data.js";
 
 export const donateBlood = async (
   bloodDonation: IUserDoner
@@ -147,7 +148,7 @@ function generateUniqueToken(): string {
 
 export async function getRecentCompletedDonors(
   limit: number
-): Promise<IUserDoner[]> {
+): Promise<IDonorData[]> {
   try {
     const recentCompletedDonors = await UserDonerModel.find({
       status: "Completed",
@@ -159,7 +160,14 @@ export async function getRecentCompletedDonors(
         select: "fullName email profilePicture", // Specify the fields to populate
       });
 
-    return recentCompletedDonors;
+    // Extract and map the donor data
+    const donors: IDonorData[] = recentCompletedDonors.map((donorDoc) => ({
+      fullName: donorDoc.donor.fullName,
+      email: donorDoc.donor.email,
+      profilePicture: donorDoc.donor.profilePicture,
+    }));
+
+    return donors;
   } catch (error) {
     console.error("Error fetching recent completed donors:", error);
     return [];

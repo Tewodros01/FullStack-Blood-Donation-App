@@ -1,5 +1,6 @@
 import 'package:frontend/src/api/api_services.dart';
 import 'package:frontend/config.dart';
+import 'package:frontend/src/features/core/models/recent_doner_model.dart';
 import 'package:frontend/src/features/core/models/user_doner.dart';
 import 'package:frontend/src/features/core/models/user_model.dart';
 import 'package:frontend/src/features/core/notifiers/blood_request_notifier.dart';
@@ -8,6 +9,7 @@ import 'package:frontend/src/features/core/notifiers/buttonTaped.notifier.dart';
 import 'package:frontend/src/features/core/notifiers/donation.notifier.dart';
 import 'package:frontend/src/features/core/notifiers/my_donation_notifier.dart';
 import 'package:frontend/src/features/core/notifiers/my_request_notifier.dart';
+import 'package:frontend/src/features/core/notifiers/recent_doner_notfier.dart';
 import 'package:frontend/src/features/core/notifiers/sponser.notifier.dart';
 import 'package:frontend/src/features/core/notifiers/token.notifier.dart';
 import 'package:frontend/src/features/core/notifiers/user_notifier.dart';
@@ -17,6 +19,7 @@ import 'package:frontend/src/features/core/states/bloodstate.dart';
 import 'package:frontend/src/features/core/states/buttontapd.state.dart';
 import 'package:frontend/src/features/core/states/my_donation_state.dart';
 import 'package:frontend/src/features/core/states/my_request_state.dart';
+import 'package:frontend/src/features/core/states/recent_doner_state.dart';
 import 'package:frontend/src/features/core/states/sponserstate.dart';
 import 'package:frontend/src/features/core/states/token.state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +31,11 @@ final userProvider = StateNotifierProvider.autoDispose<UserNotifier, User>(
     ref.watch(apiService),
   ),
 );
+
+final recentDonersProvider =
+    StateNotifierProvider<RecentDonerNotifier, RecentDonersState>(
+        (ref) => RecentDonerNotifier(ref.watch(apiService)));
+
 final bloodRequestProvider =
     StateNotifierProvider<BloodRequestNotifier, BloodRequestState>(
         (ref) => BloodRequestNotifier(ref.watch(apiService)));
@@ -39,12 +47,11 @@ final myDonationProvider =
     StateNotifierProvider<MyDonationNotifier, MyDonationState>(
         (ref) => MyDonationNotifier(ref.watch(apiService)));
 
-final sponserProvider =
-    StateNotifierProvider.autoDispose<SponserNotifier, SponserState>(
-        ((ref) => SponserNotifier(ref.watch(apiService))));
+final sponserProvider = StateNotifierProvider<SponserNotifier, SponserState>(
+    ((ref) => SponserNotifier(ref.watch(apiService))));
 
 final tokenValueProvider =
-    StateNotifierProvider.autoDispose<TokenValueNotifier, TokenValueState>(
+    StateNotifierProvider<TokenValueNotifier, TokenValueState>(
         ((ref) => TokenValueNotifier(ref.watch(apiService))));
 
 final buttonTapedProvider =
@@ -60,7 +67,7 @@ final bloodFilterStateProvider =
         (ref) => BloodStateNotifier());
 
 final donationProvider =
-    StateNotifierProvider.autoDispose<DonationNotifier, List<UserDoner>>(
+    StateNotifierProvider<DonationNotifier, List<UserDoner>>(
   (ref) => DonationNotifier(ref.watch(apiService)),
 );
 final socketProvider = Provider<IO.Socket>((ref) {

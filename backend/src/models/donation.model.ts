@@ -2,6 +2,8 @@ import mongoose, { Schema, Document, model } from "mongoose";
 import { IUser } from "./user.model.js";
 import { IBloodRequest } from "./blood_request.model.js";
 
+// Create a new interface that matches the extracted donor data
+
 interface IUserDoner {
   request: IBloodRequest; // Use IBloodRequest type
   donor: IUser;

@@ -19,6 +19,7 @@ class Config {
   static const String donation = "api/donate/";
   static const String approvedDonation = "api/donate/doner/approved";
   static const String getDoners = "api/donate/doner/";
+  static const String getRecentDoners = "/api/donate/doner/completed";
   static const String getMyDonation = "api/donate/getApproved";
   static const int pageSize = 10;
 }
