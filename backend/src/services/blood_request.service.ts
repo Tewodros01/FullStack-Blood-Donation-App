@@ -127,7 +127,18 @@ export async function getBloodRequestsByRequesterId(
       .select(
         "bloodType reason unitRequired deadLine hospital personInCharge contactNumber patientName location requesterId userDoners pendingState completedState createdAt updatedAt"
       )
-      .populate("userDoners");
+      .populate([
+        {
+          path: "requesterId",
+          model: "User",
+          select:
+            "fullName email phoneNo dateOfBirth medicalCondition profilePicture",
+        },
+        {
+          path: "userDoners",
+          model: "UserDoner",
+        },
+      ]);
 
     // Calculate pendingState and completedState for each blood request
     const bloodRequestsWithStats = bloodRequests.map((bloodRequest) => {
