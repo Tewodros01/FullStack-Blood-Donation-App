@@ -3,9 +3,9 @@ import 'package:frontend/src/features/core/models/sponser.dart';
 import 'package:frontend/src/features/core/pages/tooken/tooken_page.dart';
 import 'package:get/get.dart';
 
-class SponserCardWidget extends StatelessWidget {
-  const SponserCardWidget({super.key, required this.mySponser});
-  final List<Sponser> mySponser;
+class SponsorCardWidget extends StatelessWidget {
+  const SponsorCardWidget({super.key, required this.sponsors});
+  final List<Sponser> sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,9 @@ class SponserCardWidget extends StatelessWidget {
       height:
           double.infinity, // Set an appropriate height or use double.infinity
       child: ListView.builder(
-        itemCount: mySponser.length,
+        itemCount: sponsors.length,
         itemBuilder: (context, index) {
-          return SponserListWidget(mySponser: mySponser[index]);
+          return SponserListWidget(sponsors: sponsors[index]);
         },
       ),
     );
@@ -23,8 +23,8 @@ class SponserCardWidget extends StatelessWidget {
 }
 
 class SponserListWidget extends StatelessWidget {
-  const SponserListWidget({super.key, required this.mySponser});
-  final Sponser mySponser;
+  const SponserListWidget({super.key, required this.sponsors});
+  final Sponser sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class SponserListWidget extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  TokenValuePage(sponserId: mySponser.sponserId)),
+                  TokenValuePage(sponsorId: sponsors.sponserId)),
         );
       },
       child: Card(
@@ -62,7 +62,7 @@ class SponserListWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    mySponser.sponserName,
+                    sponsors.sponserName,
                     style: const TextStyle(
                         color: Colors.red), // Set text color to red
                   ),
@@ -83,7 +83,7 @@ class SponserListWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    mySponser.email,
+                    sponsors.email,
                     style: const TextStyle(
                         color: Colors.red), // Set text color to red
                   ),
@@ -104,7 +104,7 @@ class SponserListWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    mySponser.phoneNo,
+                    sponsors.phoneNo,
                     style: const TextStyle(
                         color: Colors.red), // Set text color to red
                   ),

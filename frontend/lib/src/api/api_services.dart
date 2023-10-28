@@ -47,7 +47,7 @@ class ApiService {
   static Future<bool> loginUser(String email, String password) async {
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
 
-    var url = Uri.http(
+    var url = Uri.https(
       Config.apiURL,
       Config.loginApi,
     );
@@ -65,6 +65,30 @@ class ApiService {
     }
   }
 
+  Future<List<User>?> getAllUsers() async {
+    var loginDetails = await SharedService.loginDetails();
+    Map<String, String> requestHeader = {
+      "Content-Type": "application/json",
+      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+    };
+    print("hi");
+    var url = Uri.https(Config.apiURL, Config.getAllUsers);
+    print(url);
+
+    var response = await client.get(url, headers: requestHeader);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      print("Data: $data");
+
+      if (data["data"] != null) {
+        return userFromJson(data["data"]);
+      }
+    }
+    return null;
+  }
+
   Future<User?> getUsersData() async {
     var loginDetails = await SharedService.loginDetails();
     Map<String, String> requestHeader = {
@@ -72,7 +96,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
 
-    var url = Uri.http(
+    var url = Uri.https(
       Config.apiURL,
       "${Config.getUserById}${loginDetails.data.userId.toString()}",
     );
@@ -97,7 +121,7 @@ class ApiService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ${lodingDetail?.data.token.toString()}'
     };
-    var url = Uri.http(Config.apiURL, Config.approvedDonation);
+    var url = Uri.https(Config.apiURL, Config.approvedDonation);
     print(url);
     var response = await client.post(
       url,
@@ -128,7 +152,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
     print("hi");
-    var url = Uri.http(
+    var url = Uri.https(
       Config.apiURL,
       Config.bloodRequest,
     );
@@ -155,7 +179,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDatails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL,
+    var url = Uri.https(Config.apiURL,
         "${Config.getBloodRequest}${loginDatails.data.userId.toString()}");
     print(url);
     var response = await client.get(url, headers: requestHeader);
@@ -176,7 +200,7 @@ class ApiService {
       "Content-Type": "application/json",
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
-    var url = Uri.http(Config.apiURL, Config.getBloodRequest);
+    var url = Uri.https(Config.apiURL, Config.getBloodRequest);
     var response = await client.post(url,
         headers: requestHeader, body: jsonEncode(bloodRequest.toJson()));
 
@@ -197,7 +221,7 @@ class ApiService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ${lodingDetail?.data.token.toString()}'
     };
-    var url = Uri.http(Config.apiURL, Config.updateUserById);
+    var url = Uri.https(Config.apiURL, Config.updateUserById);
     var response = await client.put(
       url,
       headers: requestHeaders,
@@ -220,7 +244,7 @@ class ApiService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ${lodingDetail?.data.token.toString()}'
     };
-    var url = Uri.http(Config.apiURL, Config.donation);
+    var url = Uri.https(Config.apiURL, Config.donation);
 
     var response = await client.post(
       url,
@@ -252,7 +276,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDatails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.getMyDonation);
+    var url = Uri.https(Config.apiURL, Config.getMyDonation);
     print(url);
     var response = await client.get(url, headers: requestHeader);
 
@@ -273,7 +297,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDatails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, "${Config.getDoners}$requestId");
+    var url = Uri.https(Config.apiURL, "${Config.getDoners}$requestId");
 
     var response = await client.get(url, headers: requestHeader);
     print(url);
@@ -295,7 +319,7 @@ class ApiService {
 
       var request = http.MultipartRequest(
         'PUT',
-        Uri.http(Config.apiURL, Config.updateUserById),
+        Uri.https(Config.apiURL, Config.updateUserById),
       );
 
       // Set request headers
@@ -337,7 +361,8 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.getSponser);
+    var url = Uri.https(Config.apiURL, Config.getSponser);
+    print(url);
     var response = await client.get(url, headers: requestHeader);
 
     if (response.statusCode == 200) {
@@ -357,7 +382,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.createSponser);
+    var url = Uri.https(Config.apiURL, Config.createSponser);
 
     var response = await client.post(url,
         headers: requestHeader, body: jsonEncode(sponser.toJson()));
@@ -380,7 +405,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.getTokenValue);
+    var url = Uri.https(Config.apiURL, Config.getTokenValue);
     var response = await client.get(url, headers: requestHeader);
 
     if (response.statusCode == 200) {
@@ -400,7 +425,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.createSponserToken);
+    var url = Uri.https(Config.apiURL, Config.createSponserToken);
 
     var response = await client.post(url,
         headers: requestHeader, body: jsonEncode(sponserToken.toJson()));
@@ -423,7 +448,7 @@ class ApiService {
       'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.getTokenValue);
+    var url = Uri.https(Config.apiURL, Config.getTokenValue);
     var response = await client.get(url, headers: requestHeader);
 
     if (response.statusCode == 200) {

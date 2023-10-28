@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/features/core/pages/blood_request/blood_requiest_page.dart';
-import 'package:frontend/src/features/core/pages/donate_blood_page/donate_blood_page.dart';
+import 'package:frontend/src/features/core/pages/add_blood_request/add_blood_requiest_page.dart';
+import 'package:frontend/src/features/core/pages/book_doner/book_doner_page.dart';
+import 'package:frontend/src/features/core/pages/chat_screen/chat_screen.dart';
 import 'package:frontend/src/features/core/pages/home_page/home_page.dart';
 import 'package:frontend/src/features/core/pages/profile/profile_page.dart';
+import 'package:frontend/src/features/core/pages/sponser_page/sponser_page.dart';
 import 'package:get/get.dart';
 
 class DashBoardPage extends StatefulWidget {
@@ -15,8 +17,8 @@ class DashBoardPage extends StatefulWidget {
 class _DashBoardPageState extends State<DashBoardPage> {
   final List<Widget> _pageList = [
     const BloodPage(),
-    const DonateBloodPage(),
-    const BloodRequestPage(),
+    const BookDonorPage(),
+    const SponsorPage(),
     const ProfilePage(),
   ];
   int selectedIndex = 0;
@@ -55,9 +57,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
             BottomNavigationBarItem(
               icon: const Padding(
                 padding: EdgeInsets.only(top: 8.0),
-                child: Icon(Icons.message_outlined),
+                child: Icon(Icons.discount),
               ),
-              label: "message".tr,
+              label: "sponser".tr,
             ),
             // BottomNavigationBarItem(
             //   icon: const Padding(

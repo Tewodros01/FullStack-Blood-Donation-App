@@ -4,6 +4,7 @@ import 'package:frontend/src/common_widgets/profile_avater/profile_avater.dart';
 import 'package:frontend/src/constants/colors.dart';
 import 'package:frontend/src/constants/image_strings.dart';
 import 'package:frontend/src/constants/sizes.dart';
+import 'package:frontend/src/features/core/pages/my_request_page/my_request_page.dart';
 import 'package:frontend/src/features/core/pages/profile/widget/profil_card_widget.dart';
 import 'package:frontend/src/features/core/pages/profile/widget/profile_button_widget.dart';
 import 'package:frontend/src/features/core/pages/profile/widget/profile_sizedbox_widget.dart';
@@ -92,11 +93,16 @@ class ProfileWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          ProfileSizedBoxs(
-                            content: 'Requests',
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => MyRequestPage());
+                            },
+                            child: const ProfileSizedBoxs(
+                              content: 'My Requests',
+                            ),
                           ),
-                          ProfileSizedBoxs(
+                          const ProfileSizedBoxs(
                             content: 'Donations',
                           ),
                         ],

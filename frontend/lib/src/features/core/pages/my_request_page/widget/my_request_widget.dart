@@ -5,8 +5,8 @@ import 'package:frontend/src/features/core/pages/my_request_page/donteing_user.d
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
-class RequestCardWidget extends StatelessWidget {
-  const RequestCardWidget({super.key, required this.myRequest});
+class MyRequestCardWidget extends StatelessWidget {
+  const MyRequestCardWidget({super.key, required this.myRequest});
   final List<BloodRequest> myRequest;
   @override
   Widget build(BuildContext context) {

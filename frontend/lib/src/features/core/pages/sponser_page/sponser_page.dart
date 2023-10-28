@@ -1,47 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/common_widgets/app_bar/app_bar.dart';
 import 'package:frontend/src/features/core/pages/sponser_page/widget/sponser_widget.dart';
 import 'package:frontend/src/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SponserPage extends ConsumerWidget {
-  const SponserPage({super.key});
+class SponsorPage extends ConsumerWidget {
+  const SponsorPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: _mySponserData(context, ref),
+      appBar: appBar("Sponsors", context),
+      body: _buildGetData(context),
     );
   }
 
-  Future<void> _fetchSponsors(WidgetRef ref) async {
-    final mySponserViewModel = ref.read(sponserProvider.notifier);
-    await mySponserViewModel.getSponser();
-  }
-
-  Widget _mySponserData(BuildContext context, WidgetRef ref) {
-    // print("I am here");
-    final mySponserState = ref.watch(sponserProvider);
-    // print(
-    //     'Loading: ${mySponserState.isLoading} and HasNext: ${mySponserState.hasNext}');
-
-    // Check if sponsors need to be fetched (based on your conditions)
-    if (mySponserState.hasNext && !mySponserState.isLoading) {
-      _fetchSponsors(ref);
-    }
-
-    if (mySponserState.sponser.isEmpty) {
-      if (!mySponserState.hasNext && !mySponserState.isLoading) {
-        return const Center(
-          child: Text("No data"),
-        );
-      }
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return SponserCardWidget(
-      mySponser: mySponserState.sponser,
+  Widget _buildGetData(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, _) {
+        final sponsorState = ref.watch(sponserProvider);
+        if (sponsorState.sponser.isEmpty) {
+          ref.watch(sponserProvider.notifier).getSponsers();
+          if (!sponsorState.hasNext && !sponsorState.isLoading) {
+            return const Center(
+              child: Text("No Users Found"),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return SponsorCardWidget(
+            sponsors: sponsorState.sponser,
+          );
+        }
+      },
     );
   }
 }

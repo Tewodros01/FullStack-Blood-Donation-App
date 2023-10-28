@@ -9,29 +9,41 @@ class MyRequestPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: _myRequestData(context, ref),
+      appBar: AppBar(
+        title: const Text(
+          "My Requests",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black, // Customize the title color
+          ),
+        ),
+        backgroundColor:
+            Colors.white, // Set your preferred app bar background color
+      ),
+      body: _buildMyRequestData(context, ref),
     );
   }
 
-  Widget _myRequestData(BuildContext context, WidgetRef ref) {
-    final myRequestViewModel = ref.read(myRequestsProvider.notifier);
+  Widget _buildMyRequestData(BuildContext context, WidgetRef ref) {
+    final myRequestsViewModel = ref.read(myRequestsProvider.notifier);
     final myRequestState = ref.watch(myRequestsProvider);
 
     if (myRequestState.hasNext && !myRequestState.isLoading) {
-      myRequestViewModel.getMyRequests();
+      myRequestsViewModel.getMyRequests();
     }
 
     if (myRequestState.myRequests.isEmpty) {
       if (!myRequestState.hasNext && !myRequestState.isLoading) {
         return const Center(
-          child: Text("no data"),
+          child: Text("No requests found"),
         );
       }
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
-    return RequestCardWidget(
+    return MyRequestCardWidget(
       myRequest: myRequestState.myRequests,
     );
   }

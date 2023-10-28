@@ -4,13 +4,17 @@ import 'package:frontend/src/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
-      body: _userData(context),
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          _userData(context),
+        ],
+      ),
     );
   }
 
@@ -19,13 +23,13 @@ class ProfilePage extends StatelessWidget {
       builder: (context, ref, _) {
         final user = ref.watch(userProvider);
         if (user.userId == null) {
-          // fetch user data
+          // Fetch user data
           ref.read(userProvider.notifier).getUser();
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
-          // show user profile page
+          // Show user profile page
           return ProfileWidget(user: user);
         }
       },

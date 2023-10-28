@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/api/api_services.dart';
+
 import 'package:frontend/src/features/core/models/accesToken_model.dart';
 import 'package:frontend/src/features/core/models/token.model.dart';
 import 'package:frontend/src/providers/providers.dart';
@@ -8,11 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class TokenValueCardWidget extends StatelessWidget {
   const TokenValueCardWidget({
     super.key,
-    required this.myTokenValue,
-    required this.sponserId,
+    required this.tokenValues,
+    required this.sponsorId,
   });
-  final List<TokenValue> myTokenValue;
-  final String sponserId; // Add this parameter
+  final List<TokenValue> tokenValues;
+  final String sponsorId; // Add this parameter
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class TokenValueCardWidget extends StatelessWidget {
       height:
           double.infinity, // Set an appropriate height or use double.infinity
       child: ListView.builder(
-        itemCount: myTokenValue.length,
+        itemCount: tokenValues.length,
         itemBuilder: (context, index) {
           return SponserListWidget(
-            myTokenValue: myTokenValue[index],
-            sponserId: sponserId,
+            tokenValues: tokenValues[index],
+            sponsorId: sponsorId,
           );
         },
       ),
@@ -34,13 +34,13 @@ class TokenValueCardWidget extends StatelessWidget {
 
 class SponserListWidget extends ConsumerWidget {
   const SponserListWidget(
-      {super.key, required this.myTokenValue, required this.sponserId});
-  final TokenValue myTokenValue;
-  final String sponserId;
+      {super.key, required this.tokenValues, required this.sponsorId});
+  final TokenValue tokenValues;
+  final String sponsorId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myTokenValueViewModel = ref.read(tokenValueProvider.notifier);
+    final tokenValuesViewModel = ref.read(tokenValueProvider.notifier);
 
     return Card(
       elevation: 4,
@@ -57,21 +57,21 @@ class SponserListWidget extends ConsumerWidget {
             ),
             const SizedBox(width: 8.0),
             Text(
-              myTokenValue.value!,
+              tokenValues.value!,
               style: const TextStyle(color: Colors.red),
             ),
             const Spacer(),
             Container(
               decoration: BoxDecoration(
-                color: myTokenValue.used ? Colors.grey : Colors.red,
+                color: tokenValues.used ? Colors.grey : Colors.red,
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: GestureDetector(
-                onTap: myTokenValue.used
+                onTap: tokenValues.used
                     ? null
                     : () async {
                         var accessToken = AccessToken(
-                            sponserId: sponserId, token: myTokenValue.value);
+                            sponserId: sponsorId, token: tokenValues.value);
 
                         // Call the createSponserToken method from apiService
                         final success = await ref
@@ -79,7 +79,7 @@ class SponserListWidget extends ConsumerWidget {
                             .createSponserToken(accessToken);
 
                         if (success) {
-                          // myTokenValueViewModel.getTokenValue();
+                          // tokenValuesViewModel.getTokenValue();
                           ref.invalidate(tokenValueProvider);
                           // Handle success, e.g., show a success message
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -111,7 +111,7 @@ class SponserListWidget extends ConsumerWidget {
                     style: TextStyle(
                       color: Colors.white,
                       decoration:
-                          myTokenValue.used ? TextDecoration.lineThrough : null,
+                          tokenValues.used ? TextDecoration.lineThrough : null,
                     ),
                   ),
                 ),

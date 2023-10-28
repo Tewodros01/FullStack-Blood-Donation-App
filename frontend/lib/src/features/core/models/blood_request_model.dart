@@ -1,3 +1,5 @@
+import 'package:frontend/src/features/core/models/user_model.dart';
+
 List<BloodRequest> bloodRequestFromJson(dynamic str) =>
     List<BloodRequest>.from((str).map((x) => BloodRequest.fromJson(x)));
 
@@ -15,6 +17,7 @@ class BloodRequest {
   List<String>? userDoners;
   int? pendingState;
   int? completedState;
+  User? requesterUser;
 
   BloodRequest({
     required this.bloodType,
@@ -30,6 +33,7 @@ class BloodRequest {
     this.userDoners,
     this.pendingState,
     this.completedState,
+    this.requesterUser,
   });
 
   factory BloodRequest.fromJson(Map<String, dynamic> json) {
@@ -49,6 +53,8 @@ class BloodRequest {
           : null,
       pendingState: json['pendingState'],
       completedState: json['completedState'],
+      requesterUser: User.fromJson(json['requesterId']),
+      // Deserialize requesterUser from JSON
     );
   }
 

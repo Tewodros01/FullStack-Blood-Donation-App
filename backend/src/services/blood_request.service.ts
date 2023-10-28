@@ -21,15 +21,72 @@ export const createBloodRequest = async (
   }
 };
 
+export async function getAllBloodRequests(
+  pagination: Pagination,
+  currentUserRequestId: string
+): Promise<IBloodRequestDocument[]> {
+  try {
+    const perPage =
+      Math.abs(parseInt(pagination.pageSize!)) || MONGO_DB_CONFIG.PAGE_SIZE;
+    const page = (Math.abs(parseInt(pagination.page!)) || 1) - 1;
+
+    const bloodRequests = await BloodRequest.find({
+      requesterId: { $ne: currentUserRequestId }, // Exclude requests from the current user
+    })
+      .select(
+        "bloodType reason unitRequired deadLine hospital personInCharge contactNumber patientName location requesterId userDoners pendingState completedState createdAt updatedAt"
+      )
+      .populate([
+        {
+          path: "requesterId",
+          model: "User",
+          select:
+            "fullName email phoneNo dateOfBirth medicalCondition profilePicture",
+        },
+        {
+          path: "userDoners",
+          model: "UserDoner",
+        },
+      ])
+      .limit(perPage)
+      .skip(page * perPage);
+
+    // Calculate pendingState and completedState for each blood request
+    const bloodRequestsWithStats = bloodRequests.map((bloodRequest) => {
+      const pendingState = bloodRequest.userDoners.filter(
+        (userDoner: IUserDoner) => userDoner.status === "Pending"
+      ).length;
+
+      const completedState = bloodRequest.userDoners.filter(
+        (userDoner: IUserDoner) => userDoner.status === "Completed"
+      ).length;
+
+      return {
+        ...bloodRequest.toJSON(),
+        pendingState,
+        completedState,
+      };
+    });
+
+    return bloodRequestsWithStats as IBloodRequestDocument[];
+  } catch (error) {
+    console.error("Error fetching blood requests:", error);
+    return [];
+  }
+}
+
 // export async function getAllBloodRequests(
-//   pagination: Pagination
+//   pagination: Pagination,
+//   currentUserRequestId: string // Pass the current user's requesterId here
 // ): Promise<IBloodRequestDocument[]> {
 //   try {
 //     const perPage =
 //       Math.abs(parseInt(pagination.pageSize!)) || MONGO_DB_CONFIG.PAGE_SIZE;
 //     const page = (Math.abs(parseInt(pagination.page!)) || 1) - 1;
 
-//     const bloodRequests = await BloodRequest.find()
+//     const bloodRequests = await BloodRequest.find({
+//       requesterId: { $ne: currentUserRequestId }, // Exclude requests from the current user
+//     })
 //       .select(
 //         "bloodType reason unitRequired deadLine hospital personInCharge contactNumber patientName location requesterId userDoners pendingState completedState createdAt updatedAt"
 //       )
@@ -60,49 +117,6 @@ export const createBloodRequest = async (
 //     return [];
 //   }
 // }
-
-export async function getAllBloodRequests(
-  pagination: Pagination,
-  currentUserRequestId: string // Pass the current user's requesterId here
-): Promise<IBloodRequestDocument[]> {
-  try {
-    const perPage =
-      Math.abs(parseInt(pagination.pageSize!)) || MONGO_DB_CONFIG.PAGE_SIZE;
-    const page = (Math.abs(parseInt(pagination.page!)) || 1) - 1;
-
-    const bloodRequests = await BloodRequest.find({
-      requesterId: { $ne: currentUserRequestId }, // Exclude requests from the current user
-    })
-      .select(
-        "bloodType reason unitRequired deadLine hospital personInCharge contactNumber patientName location requesterId userDoners pendingState completedState createdAt updatedAt"
-      )
-      .populate("userDoners")
-      .limit(perPage)
-      .skip(page * perPage);
-
-    // Calculate pendingState and completedState for each blood request
-    const bloodRequestsWithStats = bloodRequests.map((bloodRequest) => {
-      const pendingState = bloodRequest.userDoners.filter(
-        (userDoner: IUserDoner) => userDoner.status === "Pending"
-      ).length;
-
-      const completedState = bloodRequest.userDoners.filter(
-        (userDoner: IUserDoner) => userDoner.status === "Completed"
-      ).length;
-
-      return {
-        ...bloodRequest.toJSON(),
-        pendingState,
-        completedState,
-      };
-    });
-
-    return bloodRequestsWithStats as IBloodRequestDocument[];
-  } catch (error) {
-    console.error("Error fetching blood requests:", error);
-    return [];
-  }
-}
 
 export async function getBloodRequestsByRequesterId(
   requesterId: string

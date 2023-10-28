@@ -1,6 +1,9 @@
 import 'package:frontend/config.dart';
 import 'package:frontend/src/features/core/models/token.model.dart';
 
+List<User> userFromJson(dynamic str) =>
+    List<User>.from((str).map((x) => User.fromJson(x)));
+
 class User {
   String fullName;
   String email;

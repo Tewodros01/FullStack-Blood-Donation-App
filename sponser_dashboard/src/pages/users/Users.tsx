@@ -35,7 +35,7 @@ const Users = () => {
     if (user && user.user.token) {
       console.log(`Token: ${user.user.token}`);
       fetch(
-        `http://127.0.0.1:8080/api/sponserToken?nocache=${new Date().getTime()}`,
+        `https://blood-donation-service-wgdv.onrender.com/api/sponserToken?nocache=${new Date().getTime()}`,
         {
           method: "GET",
           headers: {

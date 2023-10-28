@@ -25,10 +25,10 @@ class ProfileSizedBoxs extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
-                'Requests',
-                style: TextStyle(
+                content,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,

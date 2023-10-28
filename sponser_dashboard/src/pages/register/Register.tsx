@@ -29,7 +29,7 @@ const Register = () => {
   const createUser = async () => {
     try {
       const response = await Axios.post(
-        "http://127.0.0.1:8080/api/sponser/register",
+        "https://blood-donation-service-wgdv.onrender.com/api/sponser/register",
         {
           sponserName: userName,
           phoneNo: phoneNo,

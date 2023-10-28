@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:frontend/src/common_widgets/app_bar/app_bar.dart';
 import 'package:frontend/src/constants/colors.dart';
 import 'package:frontend/src/constants/image_strings.dart';
+import 'package:frontend/src/features/core/pages/home_page/widgets/blood_reques_widget.dart';
 import 'package:frontend/src/features/core/pages/home_page/widgets/card_container.dart';
 import 'package:frontend/src/features/core/pages/my_request_page/my_request_page.dart';
 import 'package:get/get.dart';
@@ -52,14 +53,7 @@ class _BloodPageState extends State<BloodPage> {
             ),
           ),
           SliverToBoxAdapter(child: SizedBox(height: 10.h)),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 3,
-              (BuildContext context, int index) {
-                return bloodRequest(context);
-              },
-            ),
-          ),
+          const BloodRequestWidget(),
         ],
       ),
     );
@@ -92,115 +86,6 @@ class _BloodPageState extends State<BloodPage> {
             ),
             const Icon(Icons.phonelink_ring)
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget bloodRequest(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
-          height: 200,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white,
-                Colors.white,
-              ],
-            ),
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                top: 25,
-                left: 20,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CircleAvatar(
-                      radius: 30,
-                      child: Center(
-                        child: Image(
-                          fit: BoxFit.fill,
-                          image: AssetImage(cProfileImage),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10.h),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10.h),
-                        TextWidget(
-                          "Tewodros Misawoy",
-                          18,
-                          cPrimaryColor,
-                          FontWeight.bold,
-                          letterSpace: 0,
-                        ),
-                        SizedBox(height: 5.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              "Reaseon \n",
-                              15,
-                              cPrimaryColor,
-                              FontWeight.normal,
-                              letterSpace: 0,
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Positioned(
-                left: 20,
-                right: 20,
-                bottom: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4.0.r),
-                  child: Container(
-                    height: 150,
-                    width: double.infinity,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 5,
-                bottom: 5,
-                child: Container(
-                  width: 110.w,
-                  decoration: BoxDecoration(
-                    color: cPrimaryColor,
-                    borderRadius: BorderRadius.circular(5.r),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextWidget(
-                      "Donate Now",
-                      15.h,
-                      cWhiteColor,
-                      FontWeight.bold,
-                      letterSpace: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
