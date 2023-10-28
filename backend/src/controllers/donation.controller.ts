@@ -89,11 +89,25 @@ const getMyApprovedDonations = async (
   }
 };
 
+const getRecentCompletedDonors = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const listBloodDonation = await bloodDonations.getRecentCompletedDonors(10);
+    res.json({ message: "Success", data: listBloodDonation });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const donation_routes = (router: Router) => {
   router.get("/getApproved", getMyApprovedDonations);
   router.get("/:id", getBloodDonationsById);
   router.get("/", getBloodDonations);
   router.post("/", createBloodDonation);
+  router.get("/doner/completed", getRecentCompletedDonors);
   router.get("/doner/:id", getDonatingUsers);
   router.post("/doner/approved", approveDonation);
 };

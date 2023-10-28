@@ -144,3 +144,24 @@ function generateUniqueToken(): string {
 
   return token;
 }
+
+export async function getRecentCompletedDonors(
+  limit: number
+): Promise<IUserDoner[]> {
+  try {
+    const recentCompletedDonors = await UserDonerModel.find({
+      status: "Completed",
+    })
+      .sort({ updatedAt: -1 })
+      .limit(limit)
+      .populate({
+        path: "donor",
+        select: "fullName email profilePicture", // Specify the fields to populate
+      });
+
+    return recentCompletedDonors;
+  } catch (error) {
+    console.error("Error fetching recent completed donors:", error);
+    return [];
+  }
+}
